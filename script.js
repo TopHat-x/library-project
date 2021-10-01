@@ -28,25 +28,43 @@ function displayBooks(book){
 
     cell4 = row.insertCell();
     cell4.textContent = "Not Read";
+    cell4.id = "read" + rowID;
+    
+    cell5 = row.insertCell();
+    cell5.style.width = '80px';
     let readToggleBtn = document.createElement("button");
     readToggleBtn.textContent = "Toggle";
     readToggleBtn.className = "readToggleBtn";
+    readToggleBtn.setAttribute("data-rowID", rowID);
+    cell5.appendChild(readToggleBtn);
+    
 
-    cell5 = row.insertCell();
-    cell5.className = "invisCell";
+    readToggleBtn.addEventListener("click", e => {
+        rowID = e.target.getAttribute("data-rowID");
+        cell = document.querySelector("#read" + rowID);
+
+        if(cell.textContent === "Not Read"){
+            cell.textContent = "Read";
+        } else {
+            cell.textContent = "Not Read";
+        }
+    })
+
+    cell6 = row.insertCell();
+    cell6.className = "invisCell";
 
     let delBtn = document.createElement("button");
     delBtn.textContent = "x";
     delBtn.className = "delBtn";
     delBtn.id = "delBtn" + (rowID);
     delBtn.setAttribute("data-rowID", rowID);
+    cell6.appendChild(delBtn);
 
     delBtn.addEventListener("click", e => {
         rowID = parseInt(e.target.getAttribute("data-rowID"));
         deleteBook(rowID)
     });
 
-    cell5.appendChild(delBtn);
 }
 
 function addBookPrompt(){
