@@ -16,26 +16,37 @@ function addBookToLibrary(book){
 
 function displayBooks(book){
     row = tbl.insertRow();
+    rowID = myLibrary.length - 1;
     row.id = "row" + (myLibrary.length - 1);
     
     cell1 = row.insertCell();
     cell1.textContent = book.title;
-
     cell2 = row.insertCell();
     cell2.textContent = book.author;
-
     cell3 = row.insertCell();
     cell3.textContent = book.year;
 
     cell4 = row.insertCell();
-    cell4.className = "invisCell";
+    cell4.textContent = "Not Read";
+    let readToggleBtn = document.createElement("button");
+    readToggleBtn.textContent = "Toggle";
+    readToggleBtn.className = "readToggleBtn";
+
+    cell5 = row.insertCell();
+    cell5.className = "invisCell";
+
     let delBtn = document.createElement("button");
     delBtn.textContent = "x";
     delBtn.className = "delBtn";
-    delBtn.id = "delBtn" + (myLibrary.length - 1);
-/*     delBtn.addEventListener("click", () => {deleteBook()}); */
-    cell4.appendChild(delBtn);
-    
+    delBtn.id = "delBtn" + (rowID);
+
+    delBtn.addEventListener("click", e => {
+        btnID = e.target.id;
+        rowID = parseInt(btnID.substring(6, btnID.length));
+        deleteBook(rowID)
+    });
+
+    cell5.appendChild(delBtn);
 }
 
 function addBookPrompt(){
@@ -60,6 +71,7 @@ function deleteBook(rowID){
     }
 
     myLibrary.splice(rowID,1);
+    index--;
 }
 
 const tbl = document.querySelector("#bookTable");
