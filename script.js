@@ -39,10 +39,10 @@ function displayBooks(book){
     delBtn.textContent = "x";
     delBtn.className = "delBtn";
     delBtn.id = "delBtn" + (rowID);
+    delBtn.setAttribute("data-rowID", rowID);
 
     delBtn.addEventListener("click", e => {
-        btnID = e.target.id;
-        rowID = parseInt(btnID.substring(6, btnID.length));
+        rowID = parseInt(e.target.getAttribute("data-rowID"));
         deleteBook(rowID)
     });
 
@@ -68,6 +68,8 @@ function deleteBook(rowID){
 
         delBtn = tbl.querySelector("#delBtn" + i);
         delBtn.id ="delBtn" + (i - 1);
+
+        delBtn.setAttribute("data-rowID", i-1);
     }
 
     myLibrary.splice(rowID,1);
