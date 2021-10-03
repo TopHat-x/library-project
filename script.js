@@ -1,9 +1,10 @@
 let myLibrary = [];
 
-function Book(title, author, year){
+function Book(title, author, year, readStatus){
     this.title = title;
     this.author = author;
     this.year = year;
+    this.readStatus = readStatus;
     addBookToLibrary(this);
     displayBooks(this);
 }
@@ -27,7 +28,7 @@ function displayBooks(book){
     cell3.textContent = book.year;
 
     cell4 = row.insertCell();
-    cell4.textContent = "Not Read";
+    cell4.textContent = book.readStatus;
     cell4.id = "read" + rowID;
     
     cell5 = row.insertCell();
@@ -42,12 +43,14 @@ function displayBooks(book){
     readToggleBtn.addEventListener("click", e => {
         rowID = e.target.getAttribute("data-rowID");
         cell = document.querySelector("#read" + rowID);
+        
 
-        if(cell.textContent === "Not Read"){
-            cell.textContent = "Read";
+        if(myLibrary[rowID].readStatus === "Not Read"){
+            myLibrary[rowID].readStatus = "Read";
         } else {
-            cell.textContent = "Not Read";
+            myLibrary[rowID].readStatus = "Not Read";
         }
+        cell.textContent = myLibrary[rowID].readStatus;
     })
 
     cell6 = row.insertCell();
@@ -71,7 +74,15 @@ function addBookPrompt(){
     let title = prompt("What is the book's title?");
     let author = prompt("What is the book's author?");
     let year = prompt("What year was the book published?");
-    new Book(title, author, year);
+    let readStatusAns = prompt("Have you read this book?");
+    readStatusAns = readStatusAns.toLowerCase();
+    
+    let readStatus = 'Not Read';
+    if(readStatusAns === 'yes'){
+        readStatus = 'Read';
+    } 
+
+    new Book(title, author, year, readStatus);
 }
 
 function deleteBook(rowID){
